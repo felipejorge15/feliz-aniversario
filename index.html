@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feliz Aniversário!</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            text-align: center;
+            position: relative;
+        }
+
+        .content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .message {
+            font-size: 36px;
+            font-weight: bold;
+            color: #ff69b4;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 0px black;
+        }
+
+        .button {
+            background-color: #ff69b4;
+            color: white;
+            font-size: 20px;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .button:hover {
+            background-color: #ff1493;
+        }
+
+        /* Efeitos de corações */
+        #hearts-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        #hearts-container span {
+            position: absolute;
+            font-size: 30px;
+            animation: moveHearts 6s infinite;
+        }
+
+        @keyframes moveHearts {
+            0% { transform: translate(0, 0); }
+            25% { transform: translate(50px, -50px); }
+            50% { transform: translate(-50px, 50px); }
+            75% { transform: translate(50px, 100px); }
+            100% { transform: translate(0, 0); }
+        }
+
+        .heart-1 { top: -80px; left: 50%; transform: translateX(-50%); animation-delay: 0s; }
+        .heart-2 { top: -120px; left: 20%; animation-delay: 1s; }
+        .heart-3 { top: 10%; left: 80%; animation-delay: 2s; }
+        .heart-4 { top: 30%; left: 10%; animation-delay: 3s; }
+        .heart-5 { top: 50%; left: 60%; animation-delay: 4s; }
+        .heart-6 { top: 70%; left: 40%; animation-delay: 5s; }
+        .heart-7 { top: 20%; left: 30%; animation-delay: 6s; }
+        .heart-8 { top: 80%; left: 70%; animation-delay: 7s; }
+
+        /* Círculos com imagens */
+        .circle {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            overflow: hidden;
+        }
+
+        /* Efeitos após clicar em "SIM" */
+        #confetti-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 2;
+            display: none;
+        }
+
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #ff69b4;
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(-10vh) rotate(0deg); }
+            100% { transform: translateY(110vh) rotate(360deg); }
+        }
+
+        #stars-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            display: none;
+        }
+
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background-color: white;
+            border-radius: 50%;
+            animation: twinkle 2s infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0; }
+            50% { opacity: 1; }
+        }
+
+        #fireworks-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 2;
+            display: none;
+        }
+
+        .firework {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            background-color: #ff69b4;
+            border-radius: 50%;
+            animation: explode 1s ease-out;
+        }
+
+        @keyframes explode {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(10); opacity: 0; }
+        }
+
+        /* Glitter no botão "SIM" */
+        .glitter-effect {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .glitter-effect::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.8) 10%, transparent 10.01%);
+            transform: rotate(45deg);
+            animation: glitter 1.5s infinite;
+        }
+
+        @keyframes glitter {
+            0% { transform: rotate(45deg) translate(-50%, -50%); }
+            100% { transform: rotate(45deg) translate(50%, 50%); }
+        }
+
+        /* Estilo para os corações com imagens */
+        .heart-image {
+            position: fixed;
+            width: 150px; /* Tamanho aumentado */
+            height: 150px;
+            clip-path: path('M12 4.248c-3.148-5.402-12-3.825-12 2.944 0 4.661 5.571 9.427 12 15.808 6.43-6.381 12-11.147 12-15.808 0-6.792-8.875-8.306-12-2.944z');
+            animation: pulse 3s infinite alternate;
+            z-index: 2; /* Garante que os corações fiquem acima dos efeitos de fundo */
+            overflow: hidden; /* Garante que a imagem não ultrapasse o coração */
+        }
+
+        /* Centralizar a imagem dentro do coração */
+        .heart-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Cobrir o coração */
+            object-position: center center; /* Centralizar a imagem */
+        }
+
+        /* Posições fixas para os corações */
+        .heart-image-1 { top: 10%; left: 10%; }
+        .heart-image-2 { top: 10%; right: 10%; }
+        .heart-image-3 { bottom: 10%; left: 10%; }
+        .heart-image-4 { bottom: 10%; right: 10%; }
+        .heart-image-5 { top: 20%; left: 30%; }
+        .heart-image-6 { top: 20%; right: 30%; }
+        .heart-image-7 { bottom: 20%; left: 30%; }
+        .heart-image-8 { bottom: 20%; right: 30%; }
+
+        /* Animação de pulsar (aumentar e diminuir) */
+        @keyframes pulse {
+            0% { transform: scale(1.5); }
+            50% { transform: scale(2); }
+            100% { transform: scale(1.5); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Efeitos de fundo -->
+    <div id="hearts-container">
+        <span class="heart-1">❤️</span>
+        <span class="heart-2">💖</span>
+        <span class="heart-3">💘</span>
+        <span class="heart-4">💗</span>
+        <span class="heart-5">❤️</span>
+        <span class="heart-6">💓</span>
+        <span class="heart-7">❤️</span>
+        <span class="heart-8">💖</span>
+    </div>
+
+    <!-- Círculos com imagens -->
+    <div id="circles-container"></div>
+
+    <!-- Conteúdo inicial -->
+    <div class="content" id="content">
+        <div class="message" id="message">Feliz Aniversário princesa!!!
+            Não preciso fazer nenhum texto pra te mostrar o quanto eu te amo e te acho perfeita, então vou fazer um pedido...
+        </div>
+        <button class="button" onclick="changeMessage()">Clique Aqui</button>
+    </div>
+
+    <!-- Conteúdo após o clique -->
+    <div class="content" id="content-after" style="display: none;">
+        <div class="message" id="message-after"></div>
+        <button class="button" id="aceita-button" onclick="acceptAction()">SIM</button>
+    </div>
+
+    <!-- Efeitos após clicar em "SIM" -->
+    <div id="confetti-container"></div>
+    <div id="stars-container"></div>
+    <div id="fireworks-container"></div>
+
+    <script>
+        // Função para trocar a mensagem inicial
+        function changeMessage() {
+            // Oculta o conteúdo inicial
+            document.getElementById("content").style.display = "none";
+
+            // Exibe o conteúdo após o clique
+            document.getElementById("content-after").style.display = "flex";
+
+            // Define a mensagem no conteúdo após o clique
+            document.getElementById("message-after").textContent = "Maria Clara, quer namorar comigo?";
+        }
+
+        // Função para aceitar o pedido
+        function acceptAction() {
+            // Oculta corações e círculos
+            document.getElementById("hearts-container").style.display = "none";
+            document.getElementById("circles-container").style.display = "none";
+
+            // Exibe efeitos de confetes, estrelas e fogos de artifício
+            document.getElementById("confetti-container").style.display = "block";
+            document.getElementById("stars-container").style.display = "block";
+            document.getElementById("fireworks-container").style.display = "block";
+
+            // Altera a mensagem e oculta o botão "SIM"
+            document.getElementById("message-after").textContent = "EBAAAAAAAA ESTAMOS OFICIALMENTE NAMORANDO!!!!!!!!";
+            document.getElementById("aceita-button").style.display = "none";
+
+            // Adiciona glitter ao botão "SIM"
+            const aceitaButton = document.getElementById('aceita-button');
+            aceitaButton.addEventListener('mouseenter', () => {
+                aceitaButton.classList.add('glitter-effect');
+            });
+            aceitaButton.addEventListener('mouseleave', () => {
+                aceitaButton.classList.remove('glitter-effect');
+            });
+
+            // Cria corações com imagens
+            createHeartImages();
+        }
+
+        // Função para criar corações com imagens
+        function createHeartImages() {
+            const images = [
+                'https://i.imgur.com/pJ9j0PV.jpeg',
+                'https://i.imgur.com/hE56gfD.jpeg',
+                'https://i.imgur.com/l09Ec7y.jpeg',
+                'https://i.imgur.com/wY0OVYI.jpeg',
+                'https://i.imgur.com/tZapH55.jpeg',
+                'https://i.imgur.com/nz4Gzxl.jpeg',
+            ];
+
+            const positions = [
+                { top: '10%', left: '10%', className: 'heart-image-1' },
+                { top: '10%', right: '10%', className: 'heart-image-2' },
+                { bottom: '10%', left: '10%', className: 'heart-image-3' },
+                { bottom: '10%', right: '10%', className: 'heart-image-4' },
+                { top: '20%', left: '30%', className: 'heart-image-5' },
+                { top: '20%', right: '30%', className: 'heart-image-6' },
+                { bottom: '20%', left: '30%', className: 'heart-image-7' },
+                { bottom: '20%', right: '30%', className: 'heart-image-8' },
+            ];
+
+            positions.forEach((pos, index) => {
+                const heart = document.createElement('div');
+                heart.className = `heart-image ${pos.className}`;
+
+                const img = document.createElement('img');
+                img.src = images[index % images.length]; // Usa imagens em loop
+                img.alt = 'Foto';
+
+                heart.appendChild(img);
+                document.body.appendChild(heart);
+            });
+        }
+
+        // Cria círculos com imagens
+        function createCircle() {
+            const circle = document.createElement('div');
+            circle.className = 'circle';
+            circle.style.top = Math.random() * 80 + 10 + '%';
+            circle.style.left = Math.random() * 80 + 10 + '%';
+            const img = document.createElement('img');
+            const images = [
+                'https://i.imgur.com/pJ9j0PV.jpeg',
+                'https://i.imgur.com/hE56gfD.jpeg',
+                'https://i.imgur.com/l09Ec7y.jpeg',
+                'https://i.imgur.com/wY0OVYI.jpeg',
+                'https://i.imgur.com/tZapH55.jpeg',
+                'https://i.imgur.com/nz4Gzxl.jpeg',
+            ];
+            img.src = images[Math.floor(Math.random() * images.length)];
+            img.alt = 'Foto';
+            img.style.width = '100%';
+            img.style.height = '100%';
+            circle.appendChild(img);
+            document.getElementById('circles-container').appendChild(circle);
+            moveCircle(circle);
+        }
+
+        function moveCircle(circle) {
+            const randomX = (Math.random() - 0.5) * 100;
+            const randomY = (Math.random() - 0.5) * 100;
+            let posX = parseFloat(circle.style.left);
+            let posY = parseFloat(circle.style.top);
+            const interval = setInterval(() => {
+                posX += randomX * 0.005;
+                posY += randomY * 0.005;
+                circle.style.left = posX + '%';
+                circle.style.top = posY + '%';
+                if (posX < -10 || posX > 110 || posY < -10 || posY > 110) {
+                    clearInterval(interval);
+                    circle.style.top = Math.random() * 80 + 10 + '%';
+                    circle.style.left = Math.random() * 80 + 10 + '%';
+                    moveCircle(circle);
+                }
+            }, 20);
+        }
+
+        for (let i = 0; i < 10; i++) {
+            createCircle();
+        }
+
+        // Cria confetes
+        function createConfetti() {
+            const confetti = document.createElement('div');
+            confetti.className = 'confetti';
+            confetti.style.left = Math.random() * 100 + 'vw';
+            confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+            confetti.style.animationDuration = Math.random() * 3 + 2 + 's';
+            document.getElementById('confetti-container').appendChild(confetti);
+
+            setTimeout(() => {
+                confetti.remove();
+            }, 5000);
+        }
+
+        setInterval(createConfetti, 300);
+
+        // Cria estrelas
+        function createStars() {
+            const starsContainer = document.getElementById('stars-container');
+            for (let i = 0; i < 100; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.top = Math.random() * 100 + 'vh';
+                star.style.left = Math.random() * 100 + 'vw';
+                star.style.animationDelay = Math.random() * 2 + 's';
+                starsContainer.appendChild(star);
+            }
+        }
+
+        createStars();
+
+        // Cria fogos de artifício
+        function createFirework() {
+            const firework = document.createElement('div');
+            firework.className = 'firework';
+            firework.style.top = Math.random() * 80 + 10 + 'vh';
+            firework.style.left = Math.random() * 80 + 10 + 'vw';
+            firework.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+            document.getElementById('fireworks-container').appendChild(firework);
+
+            setTimeout(() => {
+                firework.remove();
+            }, 1000);
+        }
+
+        setInterval(createFirework, 500);
+    </script>
+</body>
+</html>
